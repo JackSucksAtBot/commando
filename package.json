@@ -1,0 +1,35 @@
+{
+	"name": "jackbot-commando",
+	"version": "0.1.3",
+	"description": "The official command framework for JackBot",
+	"license": "Apache-2.0",
+	"scripts": {
+		"test": "npm run lint && npm run docs:test",
+		"lint": "eslint src",
+		"lint:fix": "eslint --fix src",
+		"docs": "docgen --source src --custom docs/index.yml --output docs/docs.json",
+		"docs:test": "docgen --source src --custom docs/index.yml"
+	},
+	"author": "Cairo Mitchell-Acason",
+	"main": "src/index",
+	"types": "./typings/index.d.ts",
+	"dependencies": {
+		"common-tags": "^1.0.0",
+		"escape-string-regexp": "^1.0.0",
+		"require-all": "^3.0.0"
+	},
+	"devDependencies": {
+		"@types/node": "^9.0.0",
+		"discord.js-docgen": "discordjs/docgen",
+		"eslint": "^4.0.0",
+		"typescript": "^2.0.0"
+	},
+	"peerDependencies": {
+		"better-sqlite3": "^4.1.4",
+		"discord.js": "^12.0.0",
+		"sqlite": "^2.0.0"
+	},
+	"engines": {
+		"node": ">=7.6.0"
+	}
+}
