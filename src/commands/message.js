@@ -184,7 +184,7 @@ class CommandMessage {
 			const remaining = (throttle.start + (this.command.throttling.duration * 1000) - Date.now()) / 1000;
 			this.client.emit('commandBlocked', this, 'throttling');
 			const commandthrottlealertnotime = new Discord.RichEmbed()
-			.setDescription(`${emoji.no} **Cooldown** - You must wait another ${remaining.toFixed(1)} seconds before using this command.`)
+			.setDescription(`${emojis.no} **Cooldown** - You must wait another \`${remaining.toFixed(1)}\` seconds before using this command.`)
 			.setColor(colours.error);
 			
 			return this.embed(commandthrottlealertnotime);
