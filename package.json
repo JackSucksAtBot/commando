@@ -1,6 +1,6 @@
 {
 	"name": "jackbot-commando",
-	"version": "0.1.4",
+	"version": "0.2.3",
 	"description": "The official command framework for JackBot",
 	"license": "Apache-2.0",
 	"scripts": {

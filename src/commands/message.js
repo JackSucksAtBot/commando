@@ -12,7 +12,8 @@ const colours = require("../../../../options/colours.json");
 const emojis = require("../../../../options/emojis.json");
 const webhook = require("../../../../options/webhook.json");
 
-const errhook = new Discord.WebhookClient(webhook.errid, webhook.errtoken);
+const logs = new Discord.WebhookClient(webhook.logid, webhook.logtoken);
+const errlogs = new Discord.WebhookClient(webhook.errid, webhook.errtoken);
 
 /** A container for a message that triggers a command, that command, and methods to respond */
 class CommandMessage {
@@ -123,6 +124,13 @@ class CommandMessage {
 	 * @return {Promise<?Message|?Array<Message>>}
 	 */
 	async run() { // eslint-disable-line complexity
+		const telemetryCusage = new Discord.RichEmbed()
+    	.setAuthor("Command Use Event")
+    	.setDescription(`**Guild Name:** ${this.message.guild.name} \`(${this.message.guild.id})\`\n**Command User:** ${this.message.author.username}#${this.message.author.discriminator} \`(${this.message.author.id})\`\n**Command Name/Conent:** \`${this.message.content}\``)
+    	.setTimestamp()
+    	.setThumbnail(webhook.logcmduse)
+    	.setColor(colours.logcmduse);
+    	logs.send(telemetryCusage);
 		// Obtain the member if we don't have it (ugly-ass if statement ahead)
 		if(this.message.channel.type === 'text' && !this.message.guild.members.has(this.message.author.id) &&
 			!this.message.webhookID) {
@@ -268,20 +276,20 @@ class CommandMessage {
 				// .setDescription(`${emojis.no} **Error** - An error occured whilst running the command.\n\n**__PLEASE REPORT THE FOLLOWING ERROR [HERE](https://cairo2k18.xyz/jackbot/bugreport)__**:\n\`\`\`${err.message}\`\`\``)
 				// .setColor(colours.error);
 				
-				const errruncmd = new Discord.RichEmbed()
+				const errUSERinform = new Discord.RichEmbed()
 				.setDescription(`${emojis.no} **Error** - An error occured whilst running the command.\n\n**The following is being automatically reported to the devs**:\n\`\`\`${err.message}\`\`\``)
 				.setColor(colours.error);
 
-				this.message.channel.send(errruncmd);
+				this.message.channel.send(errUSERinform);
 
-				const errlogcmd = new Discord.RichEmbed()
-				.setDescription(`**Incoming Error..** \n\n**Error Invoker:** ${this.message.author.username}#${this.message.author.discriminator} (${this.message.author.id})\n**Error From:** \`${this.message.content}\`\n**Error Type:** ${err.name}\n**Error Message:**\n\`\`\`${err.message}\`\`\``)
-				.setColor(colours.errlog)
-				.setThumbnail("https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/147/warning-sign_26a0.png")
-				.setFooter("Error Log")
+				const telemetryERRlog = new Discord.RichEmbed()
+				.setAuthor("Error Event")
+				.setDescription(`**Error Invoker:** ${this.message.author.username}#${this.message.author.discriminator} (${this.message.author.id})\n**Error From:** \`${this.message.content}\`\n**Error Type:** ${err.name}\n**Error Message:**\n\`\`\`${err.message}\`\`\``)
+				.setColor(colours.logerr)
+				.setThumbnail(webhook.logerr)
 				.setTimestamp();
 				
-				return errhook.send(errlogcmd);
+				return errlogs.send(telemetryERRlog);
 				// return this.reply(stripIndents`
 				// 	An error occurred while running the command: \`${err.name}: ${err.message}\`
 				// 	You shouldn't ever receive an error like this.
